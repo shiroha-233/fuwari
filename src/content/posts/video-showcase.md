@@ -3,7 +3,7 @@ title: 精彩视频分享
 published: 2024-01-15
 description: 分享一个有趣的视频内容，展示最新的技术和创意
 image: ''
-tags: [视频, 分享, 技术]
+tags: [视频, 分享, 技术1]
 category: 视频
 draft: false
 lang: zh_CN
