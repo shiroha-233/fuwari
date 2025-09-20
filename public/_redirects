@@ -1,7 +1,0 @@
-# Cloudflare Pages Redirects
-
-# Force HTTPS
-http://yourdomain.com/* https://yourdomain.com/:splat 301!
-
-# Redirect www to non-www (optional)
-# https://www.yourdomain.com/* https://yourdomain.com/:splat 301!

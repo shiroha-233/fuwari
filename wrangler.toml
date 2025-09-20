@@ -1,16 +1,9 @@
+name = "fuwari"
+compatibility_date = "2024-09-21"
+
 [env.production]
-name = "fuwari-blog"
-compatibility_date = "2024-01-15"
+route = { pattern = "*", zone_name = "your-domain.com" }
 
 [[env.production.routes]]
-pattern = "yourdomain.com/*"
-zone_name = "yourdomain.com"
-
-[build]
-command = "pnpm run build"
-cwd = "."
-watch_dir = "src"
-
-[build.upload]
-format = "directory"
-dir = "dist"
+pattern = "*"
+zone_name = "your-domain.com"

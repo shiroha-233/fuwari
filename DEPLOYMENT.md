@@ -1,149 +1,115 @@
-# 🚀 Cloudflare Pages 部署指南
+# Cloudflare Pages 部署指南
 
-本指南将帮助您将 Fuwari 博客通过 GitHub 部署到 Cloudflare Pages。
+本项目已配置为通过 GitHub Actions 自动部署到 Cloudflare Pages。
 
-## 📋 部署步骤
+## 设置步骤
 
-### 1. 准备 GitHub 仓库
-
-确保您的代码已经推送到 GitHub 仓库：
-
-```bash
-git add .
-git commit -m "准备部署到 Cloudflare Pages"
-git push origin main
-```
-
-### 2. 获取 Cloudflare 凭据
-
-#### 2.1 获取 Account ID
-1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
-2. 在右侧边栏找到 **Account ID**，复制保存
-
-#### 2.2 创建 API Token
-1. 访问 [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens)
-2. 点击 **Create Token**
-3. 选择 **Custom token** 模板
-4. 配置权限：
-   - **Account** - `Cloudflare Pages:Edit`
-   - **Zone** - `Zone:Read` (如果使用自定义域名)
-5. 点击 **Continue to summary** → **Create Token**
-6. 复制生成的 Token
-
-### 3. 配置 GitHub Secrets
-
-在您的 GitHub 仓库中设置 Secrets：
-
-1. 进入仓库 → **Settings** → **Secrets and variables** → **Actions**
-2. 点击 **New repository secret**
-3. 添加以下 Secrets：
-
-```
-CLOUDFLARE_API_TOKEN=your_api_token_here
-CLOUDFLARE_ACCOUNT_ID=your_account_id_here
-```
-
-### 4. 创建 Cloudflare Pages 项目
-
-#### 方法一：通过 Cloudflare Dashboard（推荐）
+### 1. 在 Cloudflare 中创建 Pages 项目
 
 1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
-2. 点击 **Pages** → **Create a project**
-3. 选择 **Connect to Git**
-4. 选择您的 GitHub 仓库
-5. 配置构建设置：
-   - **Framework preset**: `Astro`
+2. 进入 **Pages** 部分
+3. 点击 **Create a project**
+4. 选择 **Connect to Git**
+5. 选择你的 GitHub 仓库
+6. 配置构建设置：
+   - **Framework preset**: Astro
    - **Build command**: `pnpm run build`
    - **Build output directory**: `dist`
-   - **Root directory**: `/` (保持默认)
-   - **Node.js version**: `18`
+   - **Root directory**: `/` (默认)
 
-#### 方法二：通过 GitHub Actions 自动创建
+### 2. 获取必要的 API 信息
 
-推送代码后，GitHub Actions 会自动创建项目并部署。
+#### 获取 Cloudflare API Token
+1. 进入 [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens)
+2. 点击 **Create Token**
+3. 使用 **Custom token** 模板
+4. 设置权限：
+   - **Account** - `Cloudflare Pages:Edit`
+   - **Zone** - `Zone:Read` (如果使用自定义域名)
+5. 复制生成的 token
 
-### 5. 环境变量配置（如需要）
+#### 获取 Account ID
+1. 在 Cloudflare Dashboard 右侧边栏找到 **Account ID**
+2. 复制该 ID
 
-如果您的项目需要环境变量：
+#### 获取 Project Name
+- 这是你在 Cloudflare Pages 中创建的项目名称
 
-1. 在 Cloudflare Pages 项目中
-2. 进入 **Settings** → **Environment variables**
-3. 添加所需的环境变量
+### 3. 在 GitHub 中设置 Secrets
 
-### 6. 自定义域名（可选）
+1. 进入你的 GitHub 仓库
+2. 点击 **Settings** > **Secrets and variables** > **Actions**
+3. 添加以下 Repository secrets：
 
-如果您有自定义域名：
+```
+CLOUDFLARE_API_TOKEN=你的API令牌
+CLOUDFLARE_ACCOUNT_ID=你的账户ID
+CLOUDFLARE_PROJECT_NAME=你的项目名称
+```
 
-1. 在 Cloudflare Pages 项目中
-2. 进入 **Custom domains**
-3. 点击 **Set up a custom domain**
-4. 输入您的域名并按照指引配置 DNS
+### 4. 配置自定义域名（可选）
 
-## 🔧 配置文件说明
+如果你有自定义域名：
 
-### `.github/workflows/deploy.yml`
-- GitHub Actions 工作流配置
-- 自动构建和部署到 Cloudflare Pages
-- 支持 Pull Request 预览
+1. 在 `wrangler.toml` 中更新域名：
+```toml
+[env.production]
+route = { pattern = "*", zone_name = "your-domain.com" }
+```
 
-### `wrangler.toml`
-- Cloudflare Workers/Pages 配置文件
-- 定义项目名称和构建设置
+2. 在 `astro.config.mjs` 中更新站点 URL：
+```js
+export default defineConfig({
+  site: "https://your-domain.com/",
+  // ...
+});
+```
 
-### `_headers`
-- HTTP 头部配置
-- 安全策略和缓存控制
+3. 在 Cloudflare Pages 项目设置中添加自定义域名
 
-### `_redirects`
-- URL 重定向规则
-- HTTPS 强制跳转
+## 部署流程
 
-## 🚀 部署流程
+### 自动部署
+- 推送到 `main` 或 `master` 分支时自动触发部署
+- Pull Request 时会创建预览部署
 
-1. **推送代码** → GitHub 仓库
-2. **触发 Actions** → 自动构建
-3. **部署到 Cloudflare** → 生成预览链接
-4. **访问网站** → 通过 Cloudflare Pages URL
+### 手动部署
+你也可以在 GitHub Actions 页面手动触发部署。
 
-## 📊 部署状态检查
+## 构建配置
 
-### GitHub Actions
-- 访问仓库的 **Actions** 标签页
-- 查看构建和部署状态
+项目使用以下构建配置：
+- **包管理器**: pnpm 9.14.4
+- **Node.js**: 20
+- **构建命令**: `pnpm run build`
+- **输出目录**: `dist`
 
-### Cloudflare Pages
-- 登录 Cloudflare Dashboard
-- 进入 **Pages** → 您的项目
-- 查看部署历史和状态
+## 故障排除
 
-## 🔍 常见问题
+### 常见问题
 
-### Q: 构建失败怎么办？
-A: 检查 GitHub Actions 日志，通常是依赖安装或构建命令问题。
+1. **构建失败**
+   - 检查 `package.json` 中的依赖版本
+   - 确保所有必要的环境变量已设置
 
-### Q: 部署成功但网站无法访问？
-A: 检查 Cloudflare Pages 的部署状态和自定义域名配置。
+2. **部署失败**
+   - 验证 Cloudflare API Token 权限
+   - 检查 Account ID 和 Project Name 是否正确
 
-### Q: 如何更新网站内容？
-A: 直接推送代码到 GitHub，会自动触发重新部署。
+3. **页面无法访问**
+   - 检查 `astro.config.mjs` 中的 `site` 配置
+   - 确认自定义域名 DNS 设置正确
 
-### Q: 如何回滚到之前的版本？
-A: 在 Cloudflare Pages 的部署历史中选择之前的版本进行回滚。
+### 查看日志
+- GitHub Actions 日志：仓库的 **Actions** 标签页
+- Cloudflare Pages 日志：Cloudflare Dashboard > Pages > 你的项目
 
-## 🎯 优化建议
+## 性能优化
 
-1. **启用缓存** - 已在 `_headers` 中配置
-2. **压缩资源** - Cloudflare 自动处理
-3. **CDN 加速** - Cloudflare 全球 CDN
-4. **HTTPS** - 自动启用 SSL/TLS
+Cloudflare Pages 提供：
+- 全球 CDN 分发
+- 自动 HTTPS
+- 无限带宽
+- 边缘计算支持
 
-## 📞 支持
-
-如果遇到问题：
-1. 查看 [Cloudflare Pages 文档](https://developers.cloudflare.com/pages/)
-2. 检查 [Astro 部署指南](https://docs.astro.build/en/guides/deploy/cloudflare/)
-3. 查看 GitHub Actions 构建日志
-
----
-
-🎉 **恭喜！您的 Fuwari 博客现在已经部署到 Cloudflare Pages 了！**
+你的 Astro 站点将自动享受这些性能优化。
