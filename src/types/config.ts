@@ -100,3 +100,11 @@ export type BlogPostData = {
 export type ExpressiveCodeConfig = {
 	theme: string;
 };
+
+export type BackgroundConfig = {
+	enable: boolean;
+	random: boolean;
+	opacity: number;
+	blur: number;
+	images: string[];
+};

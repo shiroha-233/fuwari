@@ -1,0 +1,90 @@
+---
+import { backgroundConfig } from "../config";
+---
+
+<!-- 背景管理器组件 -->
+{backgroundConfig.enable && (
+  <div id="background-container" class="fixed inset-0 -z-50">
+    <div 
+      id="background-image" 
+      class="w-full h-full bg-cover bg-center bg-no-repeat bg-fixed transition-all duration-1000"
+      style={`
+        opacity: 1;
+        filter: none;
+      `}
+    ></div>
+    <!-- 移除背景遮罩层 -->
+  </div>
+)}
+
+<script define:vars={{ backgroundConfig }}>
+  // 背景图片管理脚本
+  function initBackground() {
+    if (!backgroundConfig.enable) return;
+    
+    const backgroundElement = document.getElementById('background-image');
+    if (!backgroundElement) return;
+    
+    let selectedImage;
+    
+    if (backgroundConfig.random) {
+      // 随机选择背景图片
+      const randomIndex = Math.floor(Math.random() * backgroundConfig.images.length);
+      selectedImage = backgroundConfig.images[randomIndex];
+    } else {
+      // 使用第一张图片
+      selectedImage = backgroundConfig.images[0] || '';
+    }
+    
+    if (selectedImage) {
+      backgroundElement.style.backgroundImage = `url('${selectedImage}')`;
+      
+      // 保存到本地存储（可选）
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('current-background', selectedImage);
+      }
+    }
+  }
+  
+  // 页面加载时初始化背景
+  initBackground();
+  
+  // Swup 页面切换时保持背景
+  const setupSwup = () => {
+    if (window.swup) {
+      window.swup.hooks.on('page:view', () => {
+        // 页面切换后重新应用背景
+        const currentBg = localStorage.getItem('current-background');
+        const backgroundElement = document.getElementById('background-image');
+        if (currentBg && backgroundElement) {
+          backgroundElement.style.backgroundImage = `url('${currentBg}')`;
+        }
+      });
+    }
+  };
+  
+  if (window.swup) {
+    setupSwup();
+  } else {
+    document.addEventListener('swup:enable', setupSwup);
+  }
+</script>
+
+<style>
+  /* 确保背景在最底层 */
+  #background-container {
+    z-index: -50;
+  }
+  
+  /* 背景图片过渡效果 */
+  #background-image {
+    transition: background-image 1s ease-in-out, opacity 0.5s ease-in-out;
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 768px) {
+    #background-image {
+      background-attachment: scroll; /* 移动端使用 scroll 而不是 fixed */
+    }
+  }
+</style>

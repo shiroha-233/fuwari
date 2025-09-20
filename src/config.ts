@@ -1,4 +1,5 @@
 import type {
+	BackgroundConfig,
 	ExpressiveCodeConfig,
 	LicenseConfig,
 	NavBarConfig,
@@ -8,9 +9,9 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "Fuwari",
+	title: "shiroha",
 	subtitle: "Demo Site",
-	lang: "en", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
+	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
 		hue: 250, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
 		fixed: false, // Hide the theme color picker for visitors
@@ -53,26 +54,26 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/demo-avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-	name: "Lorem Ipsum",
+	avatar: "assets/images/shiroha.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	name: "视频资源分享",
 	bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 	links: [
 		{
-			name: "Twitter",
-			icon: "fa6-brands:twitter", // Visit https://icones.js.org/ for icon codes
+			name: "哔哩哔哩",
+			icon: "fa6-brands:bilibili", // Visit https://icones.js.org/ for icon codes
 			// You will need to install the corresponding icon set if it's not already included
 			// `pnpm add @iconify-json/<icon-set-name>`
-			url: "https://twitter.com",
+			url: "https://space.bilibili.com/404943467",
 		},
 		{
-			name: "Steam",
-			icon: "fa6-brands:steam",
-			url: "https://store.steampowered.com",
+			name: "QQ群",
+			icon: "fa6-brands:qq",
+			url: "https://qm.qq.com/cgi-bin/qm/qr?k=1056065792",
 		},
 		{
 			name: "GitHub",
 			icon: "fa6-brands:github",
-			url: "https://github.com/saicaca/fuwari",
+			url: "https://github.com/shiroha-233",
 		},
 	],
 };
@@ -87,4 +88,16 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	// Note: Some styles (such as background color) are being overridden, see the astro.config.mjs file.
 	// Please select a dark theme, as this blog theme currently only supports dark background color
 	theme: "github-dark",
+};
+
+export const backgroundConfig: BackgroundConfig = {
+	enable: true,           // 是否启用背景图片
+	random: true,           // 是否随机选择背景图片
+	opacity: 1,             // 背景透明度 (0-1) - 完全不透明
+	blur: 0,                // 背景模糊程度 (0-10px) - 无模糊
+	images: [               // 背景图片列表
+		'/backgrounds/1.png',
+		'/backgrounds/3.png',
+		'/backgrounds/5.png',
+	],
 };

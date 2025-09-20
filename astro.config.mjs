@@ -26,6 +26,9 @@ import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-cop
 
 // https://astro.build/config
 export default defineConfig({
+	// 为 Cloudflare Pages 部署优化
+	output: 'static',
+	adapter: undefined, // 静态站点不需要适配器
 	site: "https://fuwari.vercel.app/",
 	base: "/",
 	trailingSlash: "always",

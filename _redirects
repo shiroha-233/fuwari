@@ -1,0 +1,10 @@
+# Cloudflare Pages Redirects
+
+# SPA fallback for client-side routing (if needed)
+# /* /index.html 200
+
+# Redirect old URLs (example)
+# /old-path/* /new-path/:splat 301
+
+# Force HTTPS
+http://yourdomain.com/* https://yourdomain.com/:splat 301!
