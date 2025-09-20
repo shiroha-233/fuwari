@@ -91,13 +91,14 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 };
 
 export const backgroundConfig: BackgroundConfig = {
-	enable: true,           // 是否启用背景图片
-	random: true,           // 是否随机选择背景图片
-	opacity: 1,             // 背景透明度 (0-1) - 完全不透明
-	blur: 0,                // 背景模糊程度 (0-10px) - 无模糊
-	images: [               // 背景图片列表
-		'/backgrounds/1.png',
-		'/backgrounds/3.png',
-		'/backgrounds/5.png',
+	enable: true, // 是否启用背景图片
+	random: true, // 是否随机选择背景图片
+	opacity: 1, // 背景透明度 (0-1) - 完全不透明
+	blur: 0, // 背景模糊程度 (0-10px) - 无模糊
+	images: [
+		// 背景图片列表
+		"/backgrounds/1.png",
+		"/backgrounds/3.png",
+		"/backgrounds/5.png",
 	],
 };
