@@ -26,17 +26,10 @@ lang: zh_CN
 
 ## 资源
 
+整合包：https://wwxx.lanzn.com/iQcHh32mt9sj
+
+itt3.2参数：https://wwxx.lanzn.com/ig6ZG32munta
 reterraforged1.20.1-1.21.5压缩包：解压后挑选
 https://wwxx.lanzn.com/i3pLN33lxhve
 
-模组＆材质：
 
-1.Nature X材质包（需搭配Fast Better Grass）前置钠/Continuity 和 Polytone
-2.Os' Colorful Grasses Os' 材质包 多彩草地
-3.活力之旅
-4.动态的树
-5.Countered's Terrain Slabs，半格方块
-6.[CTOV]ChoiceTheorem's Overhauled Village村庄美化
-7.reterrforged（地形美化）
-8.超多生物群系和自然之灵（群系美化）
-9.Tax' Tree Giant
