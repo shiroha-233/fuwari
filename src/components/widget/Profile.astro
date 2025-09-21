@@ -23,17 +23,125 @@ const config = profileConfig;
         <div class="h-1 w-5 bg-[var(--primary)] mx-auto rounded-full mb-2 transition"></div>
         <div class="text-center text-neutral-400 mb-2.5 transition">{config.bio}</div>
         <div class="flex flex-wrap gap-2 justify-center mb-1">
-            {config.links.length > 1 && config.links.map(item =>
-                    <a rel="me" aria-label={item.name} href={item.url} target="_blank" class="btn-regular rounded-lg h-10 w-10 active:scale-90">
-                        <Icon name={item.icon} class="text-[1.5rem]"></Icon>
-                    </a>
-            )}
-            {config.links.length == 1 && <a rel="me" aria-label={config.links[0].name} href={config.links[0].url} target="_blank"
-                                            class="btn-regular rounded-lg h-10 gap-2 px-3 font-bold active:scale-95">
-                <Icon name={config.links[0].icon} class="text-[1.5rem]"></Icon>
-                {config.links[0].name}
-            </a>}
+            {config.links.length > 1 && config.links.map(item => {
+                if (item.name === "QQ群") {
+                    return (
+                        <button 
+                            aria-label={item.name} 
+                            onclick="copyQQGroup()" 
+                            class="btn-regular rounded-lg h-10 w-10 active:scale-90"
+                            title="点击复制QQ群号"
+                        >
+                            <Icon name={item.icon} class="text-[1.5rem]"></Icon>
+                        </button>
+                    );
+                } else {
+                    return (
+                        <a rel="me" aria-label={item.name} href={item.url} target="_blank" class="btn-regular rounded-lg h-10 w-10 active:scale-90">
+                            <Icon name={item.icon} class="text-[1.5rem]"></Icon>
+                        </a>
+                    );
+                }
+            })}
+            {config.links.length == 1 && (() => {
+                const link = config.links[0];
+                if (link.name === "QQ群") {
+                    return (
+                        <button 
+                            aria-label={link.name} 
+                            onclick="copyQQGroup()" 
+                            class="btn-regular rounded-lg h-10 gap-2 px-3 font-bold active:scale-95"
+                            title="点击复制QQ群号"
+                        >
+                            <Icon name={link.icon} class="text-[1.5rem]"></Icon>
+                            {link.name}
+                        </button>
+                    );
+                } else {
+                    return (
+                        <a rel="me" aria-label={link.name} href={link.url} target="_blank"
+                           class="btn-regular rounded-lg h-10 gap-2 px-3 font-bold active:scale-95">
+                            <Icon name={link.icon} class="text-[1.5rem]"></Icon>
+                            {link.name}
+                        </a>
+                    );
+                }
+            })()}
         </div>
     </div>
 </div>
+
+<script>
+    function copyQQGroup() {
+        const qqGroupNumber = "1056065792";
+        
+        if (navigator.clipboard && window.isSecureContext) {
+            // 使用现代 Clipboard API
+            navigator.clipboard.writeText(qqGroupNumber).then(() => {
+                showToast("QQ群号已复制到剪贴板: " + qqGroupNumber);
+            }).catch(() => {
+                fallbackCopy(qqGroupNumber);
+            });
+        } else {
+            // 降级方案
+            fallbackCopy(qqGroupNumber);
+        }
+    }
+    
+    function fallbackCopy(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            showToast("QQ群号已复制到剪贴板: " + text);
+        } catch (err) {
+            showToast("复制失败，请手动复制群号: " + text);
+        }
+        
+        document.body.removeChild(textArea);
+    }
+    
+    function showToast(message) {
+        // 创建提示框
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            color: var(--primary);
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            font-size: 14px;
+            border: 1px solid var(--line-divider);
+            transition: all 0.3s ease;
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // 3秒后自动消失
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
+            }, 300);
+        }, 3000);
+    }
+    
+    // 确保函数在全局作用域中可用
+    window.copyQQGroup = copyQQGroup;
+</script>
 

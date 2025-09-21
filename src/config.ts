@@ -68,7 +68,7 @@ export const profileConfig: ProfileConfig = {
 		{
 			name: "QQ群",
 			icon: "fa6-brands:qq",
-			url: "https://qm.qq.com/cgi-bin/qm/qr?k=1056065792",
+			url: "javascript:void(0)", // 使用空的JavaScript链接，实际功能由按钮的onclick处理
 		},
 		{
 			name: "GitHub",
