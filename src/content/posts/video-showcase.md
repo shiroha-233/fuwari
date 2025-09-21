@@ -33,7 +33,7 @@ forge版：https://wwxx.lanzouw.com/iiiPI30bezji
 
 密码: gq1t
 
-fabric版：https://ww删xx.lanzouw.com/iVfSC30f00gf
+fabric版：https://wwxx.lanzouw.com/iVfSC30f00gf
 
 密码: 44dw
 
