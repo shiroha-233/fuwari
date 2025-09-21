@@ -75,6 +75,11 @@ export const profileConfig: ProfileConfig = {
 			icon: "fa6-brands:github",
 			url: "https://github.com/shiroha-233",
 		},
+		{
+			name: "MC百科",
+			icon: "fa6-solid:cube",
+			url: "https://center.mcmod.cn/917050/",
+		},
 	],
 };
 
