@@ -72,7 +72,14 @@ const config = profileConfig;
 </div>
 
 <script>
-    function copyQQGroup() {
+    // 扩展 Window 接口以包含 copyQQGroup 方法
+    declare global {
+        interface Window {
+            copyQQGroup: () => void;
+        }
+    }
+
+    function copyQQGroup(): void {
         const qqGroupNumber = "1056065792";
         
         if (navigator.clipboard && window.isSecureContext) {
@@ -88,7 +95,7 @@ const config = profileConfig;
         }
     }
     
-    function fallbackCopy(text) {
+    function fallbackCopy(text: string): void {
         const textArea = document.createElement("textarea");
         textArea.value = text;
         textArea.style.position = "fixed";
@@ -99,8 +106,13 @@ const config = profileConfig;
         textArea.select();
         
         try {
-            document.execCommand('copy');
-            showToast("QQ群号已复制到剪贴板: " + text);
+            // 使用已弃用但仍广泛支持的 execCommand 作为降级方案
+            const successful = document.execCommand('copy');
+            if (successful) {
+                showToast("QQ群号已复制到剪贴板: " + text);
+            } else {
+                showToast("复制失败，请手动复制群号: " + text);
+            }
         } catch (err) {
             showToast("复制失败，请手动复制群号: " + text);
         }
@@ -108,7 +120,7 @@ const config = profileConfig;
         document.body.removeChild(textArea);
     }
     
-    function showToast(message) {
+    function showToast(message: string): void {
         // 创建提示框
         const toast = document.createElement('div');
         toast.textContent = message;

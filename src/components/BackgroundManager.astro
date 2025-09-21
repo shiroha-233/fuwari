@@ -17,7 +17,7 @@ import { backgroundConfig } from "../config";
   </div>
 )}
 
-<script define:vars={{ backgroundConfig }}>
+<script is:inline define:vars={{ backgroundConfig }}>
   // 背景图片管理脚本
   function initBackground() {
     if (!backgroundConfig.enable) return;
